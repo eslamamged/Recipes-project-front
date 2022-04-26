@@ -88,11 +88,16 @@ export default function EditRecipe(props) {
               onChange={handleChange}
             />
           </div>
+          <br />
           <div>
             <input
               type="submit"
               className="form-control"
-              style={{ fontWeight: "bold" }}
+              style={{
+                fontWeight: "bold",
+                backgroundColor: "green",
+                color: "white",
+              }}
               value="Edit Recipe"
               onClick={props.onHide}
             />

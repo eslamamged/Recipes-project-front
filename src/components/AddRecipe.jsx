@@ -5,37 +5,35 @@ import Form from "react-bootstrap/Form";
 import { addRecipes } from "../Apis/addRecipe";
 import { getRecipes } from "../Apis/getRecipes";
 import { UserContext } from "./recipesModule";
-// import { useForm } from "react-hook-form";
 export default function AddRecipe(props) {
+  const formData = new FormData();
+
   const { setRecipes } = useContext(UserContext);
   const [newRecipe, setnewRecipe] = useState({
     title: "",
     ingredient: "",
     recipe: "",
-    image: "",
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
+    const file = e.target.files;
     setnewRecipe((currentrecipe) => {
+      if (name === "image") {
+        return { ...currentrecipe, [name]: file };
+      }
       return { ...currentrecipe, [name]: value };
     });
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(newRecipe);
-    addRecipes(newRecipe).then(() => {
-      console.log(newRecipe);
+    formData.append("image", newRecipe.image[0]);
+    formData.append("title", newRecipe.title);
+    formData.append("ingredient", newRecipe.ingredient);
+    formData.append("recipe", newRecipe.recipe);
+    addRecipes(formData).then(() => {
       getRecipes().then(setRecipes);
     });
   };
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors },
-  // } = useForm();
-  // const onSubmit = (data) => {
-  //   console.log(data);
-  // };
 
   return (
     <Modal
@@ -85,7 +83,7 @@ export default function AddRecipe(props) {
               className="form-control"
               type="text"
               name="recipe"
-              placeholder="Enter phone recipe"
+              placeholder="Enter recipe"
               value={newRecipe.recipe}
               onChange={handleChange}
             />
@@ -101,13 +99,18 @@ export default function AddRecipe(props) {
               onChange={handleChange}
             />
           </div>
+          <br />
           <div>
             <input
               type="submit"
               value="Add Recipe"
               onClick={props.onHide}
               className="form-control"
-              style={{ fontWeight: "bold" }}
+              style={{
+                fontWeight: "bold",
+                backgroundColor: "green",
+                color: "white",
+              }}
             />
           </div>
         </Form>
