@@ -50,12 +50,16 @@ export default function ShowRecipe() {
         className="container"
         style={{
           display: "grid",
-          gridTemplateColumns: "1fr 1fr 1fr",
-          gap: "1px 15px",
+          gridTemplateColumns: "1fr",
         }}
       >
         <Card className="my-4 p-2 rounded">
-          <Card.Img variant="top" src="{recipe.image}" />
+          <Card.Img
+            variant="top"
+            src={recipe?.image}
+            style={{ width: "200px", height: "200px", margin: "auto" }}
+            alt="recipe"
+          />
           <Card.Body>
             <Card.Title>{recipe?.title}</Card.Title>
             <Card.Text>{recipe?.recipe}</Card.Text>
@@ -63,7 +67,7 @@ export default function ShowRecipe() {
           </Card.Body>
           <Card.Footer>
             <Button
-              style={{ margin: "5px" }}
+              style={{ margin: "5px", textAlign: "center" }}
               onClick={() => handleDelete(recipe?._id)}
             >
               Delete Recipe

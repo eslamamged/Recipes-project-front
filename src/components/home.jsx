@@ -44,7 +44,12 @@ function Home() {
       >
         {recipes?.map((recipe) => (
           <Card className="my-4 p-2 rounded" key={recipe._id}>
-            <Card.Img variant="top" src="{recipe.image}" />
+            <Card.Img
+              variant="top"
+              src={recipe?.image}
+              style={{ width: "200px", height: "200px", margin: "auto" }}
+              alt="recipe"
+            />
             <Card.Body>
               <Card.Title>{recipe.title}</Card.Title>
               <Card.Text>{recipe.recipe}</Card.Text>

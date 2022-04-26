@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "react-bootstrap/Form";
-// import { addRecipes } from "../Apis/addRecipe";
+import { editRecipe } from "../Apis/editRecipe";
 export default function EditRecipe(props) {
   const recipe = props;
   const [newRecipe, setnewRecipe] = useState({});
@@ -13,8 +13,7 @@ export default function EditRecipe(props) {
       ingredient: recipe?.recipe?.ingredient,
       recipe: recipe?.recipe?.recipe,
     });
-  }, [recipe]);
-  console.log(newRecipe);
+  }, [recipe, setnewRecipe]);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setnewRecipe((currentrecipe) => {
@@ -23,6 +22,7 @@ export default function EditRecipe(props) {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    editRecipe(recipe?.recipe?._id, newRecipe);
   };
   return (
     <Modal
@@ -37,12 +37,13 @@ export default function EditRecipe(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} className="form-control">
           <div>
             <label>Title</label>
           </div>
           <div>
             <input
+              className="form-control"
               type="text"
               name="title"
               placeholder="Enter Title"
@@ -56,9 +57,10 @@ export default function EditRecipe(props) {
           <div>
             <input
               type="text"
+              className="form-control"
               name="ingredient"
               placeholder="Enter ingredient"
-              value={recipe?.ingredient}
+              value={newRecipe?.ingredient}
               onChange={handleChange}
             />
           </div>
@@ -68,9 +70,10 @@ export default function EditRecipe(props) {
           <div>
             <input
               type="text"
+              className="form-control"
               name="recipe"
               placeholder="Enter phone recipe"
-              value={recipe?.recipe}
+              value={newRecipe?.recipe}
               onChange={handleChange}
             />
           </div>
@@ -79,15 +82,20 @@ export default function EditRecipe(props) {
           </div>
           <div>
             <input
-              type="text"
+              type="file"
               name="image"
-              placeholder="Enter image"
-              value={recipe?.image}
+              className="form-control"
               onChange={handleChange}
             />
           </div>
           <div>
-            <input type="submit" value="Edit Recipe" onClick={props.onHide} />
+            <input
+              type="submit"
+              className="form-control"
+              style={{ fontWeight: "bold" }}
+              value="Edit Recipe"
+              onClick={props.onHide}
+            />
           </div>
         </Form>
       </Modal.Body>
