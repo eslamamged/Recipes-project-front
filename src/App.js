@@ -1,24 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React from "react";
+import RecipesModule from "./components/recipesModule.jsx";
+import ShowDetails from "./components/showRecipe.jsx";
+import Home from "./components/home.jsx";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <RecipesModule>
+      <BrowserRouter>
+        <Routes>
+          <Route index element={<Home />} />
+          <Route path="/recipe/:id" element={<ShowDetails />} />
+        </Routes>
+      </BrowserRouter>
+    </RecipesModule>
   );
 }
 
