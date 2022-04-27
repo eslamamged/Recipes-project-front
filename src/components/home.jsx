@@ -5,65 +5,48 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { UserContext } from "../components/recipesModule";
 import AddRecipe from "./AddRecipe";
 import { Link } from "react-router-dom";
+import style from "./home.module.css";
 function Home() {
   const [modalShow, setModalShow] = useState(false);
   const { recipes, handleDelete } = useContext(UserContext);
   return (
     <>
-      <div
-        style={{
-          backgroundColor: "blue",
-          color: "white",
-          display: "flex",
-          justifyContent: "space-around",
-        }}
-      >
+      <div className={style.nav_div}>
         <span
           className="align-self-center"
           style={{ fontWeight: "bold", fontSize: "22px" }}
         >
-          Recipes
+          Food Recipes
         </span>
 
         <Button
-          variant="primary"
           onClick={() => setModalShow(true)}
-          style={{ margin: "10px" }}
+          className={style.add_recipe_btn}
         >
           Add New Recipe
         </Button>
         <AddRecipe show={modalShow} onHide={() => setModalShow(false)} />
       </div>
-      <div
-        className="container"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr 1fr",
-          gap: "1px 15px",
-        }}
-      >
+      <div className={style.recipes_card_div}>
         {recipes?.map((recipe) => (
-          <Card className="my-4 p-2 rounded" key={recipe._id}>
+          <Card key={recipe._id} className={style.recipes_card}>
             <Card.Img
-              variant="top"
+              className={style.recipes_card_img}
               src={recipe?.image}
-              style={{ width: "200px", height: "200px", margin: "auto" }}
               alt="recipe"
             />
             <Card.Body>
-              <Card.Title>{recipe.title}</Card.Title>
-              <Card.Text>{recipe.recipe}</Card.Text>
-              <Card.Text>{recipe.ingredient}</Card.Text>
+              <Card.Title className={style.title}>{recipe.title}</Card.Title>
             </Card.Body>
-            <Card.Footer>
+            <Card.Footer className={style.footer}>
               <Button
-                style={{ margin: "5px" }}
+                className={style.btn_footer}
                 onClick={() => handleDelete(recipe._id)}
               >
                 Delete Recipe
               </Button>
               <Link to={`/recipe/${recipe._id}`}>
-                <Button>More Details</Button>
+                <Button className={style.btn_footer}>More Details</Button>
               </Link>
             </Card.Footer>
           </Card>

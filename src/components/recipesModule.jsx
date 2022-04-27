@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  createContext,
-  useMemo,
-  useCallback,
-} from "react";
+import React, { useState, useEffect, createContext, useCallback } from "react";
 import { getRecipes } from "../Apis/getRecipes";
 import { deleteRecipe } from "../Apis/deleteRecipe";
 export const UserContext = createContext();
@@ -17,19 +11,13 @@ export default function RecipesModule({ children }) {
   const handleDelete = useCallback(
     (id) => {
       deleteRecipe(id).then(() => {
-        setRecipes(recipes.filter((recipe) => recipe?._id !== id));
+        getRecipes().then(setRecipes);
       });
     },
-    [recipes, setRecipes]
+    [setRecipes]
   );
-  const contextValue = useMemo(
-    () => ({
-      recipes,
-      setRecipes,
-      handleDelete,
-    }),
-    [recipes, setRecipes, handleDelete]
-  );
+
+  const contextValue = { recipes, setRecipes, handleDelete };
   return (
     <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>
   );

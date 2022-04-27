@@ -1,0 +1,33 @@
+.nav_div{
+    background-color: #2b6777;
+    color: white;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+.back_btn{
+    background-color: #52ab98;
+    color: white;
+    margin: 10px;
+}
+.title{
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-style:italic;
+}
+.recipes_card_div{
+    display: grid;
+    grid-template-columns: 1fr;
+    background-color: white;
+    margin: 15px;
+    height: 480px;
+    border-radius: 15px;
+}
+.btn_footer{
+    margin: 5px;
+    text-align: center;
+    background-color: #c8d8e4;
+    color: black;
+}

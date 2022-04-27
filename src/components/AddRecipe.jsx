@@ -1,35 +1,23 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Form from "react-bootstrap/Form";
 import { addRecipes } from "../Apis/addRecipe";
 import { getRecipes } from "../Apis/getRecipes";
 import { UserContext } from "./recipesModule";
+import { useForm } from "react-hook-form";
 export default function AddRecipe(props) {
-  const formData = new FormData();
-
   const { setRecipes } = useContext(UserContext);
-  const [newRecipe, setnewRecipe] = useState({
-    title: "",
-    ingredient: "",
-    recipe: "",
-  });
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    const file = e.target.files;
-    setnewRecipe((currentrecipe) => {
-      if (name === "image") {
-        return { ...currentrecipe, [name]: file };
-      }
-      return { ...currentrecipe, [name]: value };
-    });
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    formData.append("image", newRecipe.image[0]);
-    formData.append("title", newRecipe.title);
-    formData.append("ingredient", newRecipe.ingredient);
-    formData.append("recipe", newRecipe.recipe);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => {
+    const formData = new FormData();
+    formData.append("image", data.image[0]);
+    formData.append("title", data.title);
+    formData.append("ingredient", data.ingredient);
+    formData.append("recipe", data.recipe);
     addRecipes(formData).then(() => {
       getRecipes().then(setRecipes);
     });
@@ -48,139 +36,86 @@ export default function AddRecipe(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={handleSubmit} className="form-control">
+        <form onSubmit={handleSubmit(onSubmit)} className="form-control">
           <div>
             <label>Title</label>
           </div>
+          <input
+            className="form-control"
+            {...register("title", { required: true })}
+          />
           <div>
-            <input
-              className="form-control"
-              type="text"
-              name="title"
-              placeholder="Enter Title"
-              value={newRecipe.title}
-              onChange={handleChange}
-            />
+            {errors.title && (
+              <span style={{ color: "red" }}>the recipe title is required</span>
+            )}
           </div>
+
           <div>
             <label>Ingredient</label>
           </div>
+          <input
+            className="form-control"
+            {...register("ingredient", { required: true })}
+          />
           <div>
-            <input
-              className="form-control"
-              type="text"
-              name="ingredient"
-              placeholder="Enter ingredient"
-              value={newRecipe.ingredient}
-              onChange={handleChange}
-            />
+            {errors.ingredient && (
+              <span style={{ color: "red" }}>
+                the recipe ingredient is required
+              </span>
+            )}
           </div>
+
           <div>
             <label>Recipe</label>
           </div>
+          <textarea
+            className="form-control"
+            {...register("recipe", { required: true })}
+          />
           <div>
-            <textarea
-              className="form-control"
-              type="text"
-              name="recipe"
-              placeholder="Enter recipe"
-              value={newRecipe.recipe}
-              onChange={handleChange}
-            />
+            {errors.recipe && (
+              <span style={{ color: "red" }}>the recipe name is required</span>
+            )}
           </div>
           <div>
-            <label>Image</label>
+            <label>Image of Dish</label>
           </div>
+          <input
+            className="form-control"
+            {...register("image", { required: true })}
+            type="file"
+          />
           <div>
-            <input
-              className="form-control"
-              type="file"
-              name="image"
-              onChange={handleChange}
-            />
+            {errors.image && (
+              <span style={{ color: "red" }}>
+                you must upload the image of this recipe
+              </span>
+            )}
           </div>
           <br />
-          <div>
-            <input
-              type="submit"
-              value="Add Recipe"
-              onClick={props.onHide}
-              className="form-control"
-              style={{
-                fontWeight: "bold",
-                backgroundColor: "green",
-                color: "white",
-              }}
-            />
-          </div>
-        </Form>
+          <input
+            className="form-control"
+            style={{
+              fontWeight: "bold",
+              backgroundColor: "#2b6777",
+              color: "white",
+            }}
+            type="submit"
+            value="Add Recipe"
+            onClick={() => {
+              if (
+                errors.title ||
+                errors.ingredient ||
+                errors.recipe ||
+                errors.image
+              ) {
+                alert("please fill all input the form to add recipe");
+              }
+              props.onHide();
+            }}
+          />
+        </form>
       </Modal.Body>
     </Modal>
   );
 }
-
-//000000000000000000000000000000
-// <form onSubmit={handleSubmit(onSubmit)} className="form-control">
-// <div>
-//   <label>Title</label>
-// </div>
-// <input
-//   className="form-control"
-//   {...register("title", { required: true })}
-// />
-// <div>
-//   {errors.title && (
-//     <span style={{ color: "red" }}>the recipe title is required</span>
-//   )}
-// </div>
-
-// <div>
-//   <label>Ingredient</label>
-// </div>
-// <input
-//   className="form-control"
-//   {...register("ingredient", { required: true })}
-// />
-// <div>
-//   {errors.ingredient && (
-//     <span style={{ color: "red" }}>
-//       the recipe ingredient is required
-//     </span>
-//   )}
-// </div>
-
-// <div>
-//   <label>Recipe</label>
-// </div>
-// <textarea
-//   className="form-control"
-//   {...register("recipe", { required: true })}
-// />
-// <div>
-//   {errors.recipe && (
-//     <span style={{ color: "red" }}>the recipe name is required</span>
-//   )}
-// </div>
-// <div>
-//   <label>Image of Dish</label>
-// </div>
-// <input
-//   className="form-control"
-//   {...register("image", { required: true })}
-//   type="file"
-// />
-// <div>
-//   {errors.image && (
-//     <span style={{ color: "red" }}>
-//       you must upload the image of this recipe
-//     </span>
-//   )}
-// </div>
-// <input
-//   className="form-control"
-//   style={{ fontWeight: "bold" }}
-//   type="submit"
-//   value="Add Recipe"
-//   onClick={props.onHide}
-// />
-// </form>
