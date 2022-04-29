@@ -1,5 +1,6 @@
 body{
     background-color: #f5f5f5;
+  
 }
 .nav_div{
     background-color: #2b6777;
@@ -13,11 +14,11 @@ body{
     color: white;
     margin: 10px;
 }
-.recipes_card_div{
+/* .recipes_card_div{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 1px 10px;
-}
+} */
 .recipes_card{
     border-radius: 10px;
     box-shadow: 0px 0px 10px #2b6777;
@@ -28,15 +29,15 @@ body{
     height: 250px; 
     margin: auto
 }
-.footer{
+.div_btn{
     display: flex;
     justify-content: space-between;
-     align-items: center;
 }
 .btn_footer{
-    margin: 5px;
+    margin: 7px;
     background-color: #c8d8e4;
     color: black;
+
 }
 .title{
     text-align: center;

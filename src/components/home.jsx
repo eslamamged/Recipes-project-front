@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Container, Row } from "react-bootstrap";
 import { UserContext } from "../components/recipesModule";
 import AddRecipe from "./AddRecipe";
 import { Link } from "react-router-dom";
@@ -27,32 +28,40 @@ function Home() {
         </Button>
         <AddRecipe show={modalShow} onHide={() => setModalShow(false)} />
       </div>
-      <div className={style.recipes_card_div}>
-        {recipes?.map((recipe) => (
-          <Card key={recipe._id} className={style.recipes_card}>
-            <Card.Img
-              className={style.recipes_card_img}
-              src={recipe?.image}
-              alt="recipe"
-            />
-            <Card.Body>
-              <Card.Title className={style.title}>{recipe.title}</Card.Title>
-            </Card.Body>
-            <Card.Footer className={style.footer}>
-              <Button
-                className={style.btn_footer}
-                onClick={() => handleDelete(recipe._id)}
-              >
-                Delete Recipe
-              </Button>
-              <Link to={`/recipe/${recipe._id}`}>
-                <Button className={style.btn_footer}>More Details</Button>
-              </Link>
-            </Card.Footer>
-          </Card>
-        ))}
-      </div>
+      <Container>
+        <Row>
+          {recipes?.map((recipe) => (
+            <Card
+              key={recipe._id}
+              className={style.recipes_card}
+              style={{ width: "18rem" }}
+            >
+              <Card.Img
+                className={style.recipes_card_img}
+                src={recipe?.image}
+                alt="recipe"
+              />
+              <Card.Body>
+                <Card.Title className={style.title}>{recipe.title}</Card.Title>
+              </Card.Body>
+              <div className={style.div_btn}>
+                <Link to={`/recipe/${recipe._id}`}>
+                  <Button className={style.btn_footer}>More Details</Button>
+                </Link>
+                <Button
+                  className={style.btn_footer}
+                  onClick={() => handleDelete(recipe._id)}
+                >
+                  Delete Recipe
+                </Button>
+              </div>
+            </Card>
+          ))}
+        </Row>
+      </Container>
     </>
   );
 }
 export default Home;
+// <div className={style.recipes_card_div}>
+// </div>
